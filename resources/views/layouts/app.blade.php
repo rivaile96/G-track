@@ -10,11 +10,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+    {{-- Memanggil Font Awesome untuk Ikon via CDN --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    {{-- Menambahkan Leaflet CSS --}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
     {{-- Memanggil CSS & JS kita sendiri via Vite --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    {{-- Memanggil Font Awesome untuk Ikon via CDN --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     @yield('styles')
 </head>
@@ -45,6 +48,12 @@
                         <li><a href="{{ route('assets.create') }}">Tambah Aset Baru</a></li>
                     </ul>
                 </div>
+
+                {{-- [BARU] Menu untuk Manajemen Driver --}}
+                <a href="{{ route('drivers.index') }}" class="nav-link {{ request()->is('drivers*') ? 'active' : '' }}">
+                    <i class="fa fa-id-card fa-fw"></i>
+                    <span>Manajemen Driver</span>
+                </a>
                 
                 <a href="#" class="nav-link">
                     <i class="fa fa-map-location-dot fa-fw"></i>
@@ -70,6 +79,9 @@
         </main>
     </div>
 
-    @yield('scripts')
+    {{-- Menambahkan Leaflet JS --}}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    @stack('scripts')
 </body>
 </html>
