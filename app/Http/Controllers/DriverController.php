@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Driver;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage; // <-- [PENTING] Untuk mengelola file foto
+use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf; // <-- [PENTING] Panggil library PDF
 
 class DriverController extends Controller
 {
@@ -84,11 +85,9 @@ class DriverController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
-            // Hapus foto lama jika ada
             if ($driver->photo_path) {
                 Storage::disk('public')->delete($driver->photo_path);
             }
-            // Upload foto baru
             $path = $request->file('photo')->store('driver-photos', 'public');
             $validatedData['photo_path'] = $path;
         }
@@ -103,7 +102,6 @@ class DriverController extends Controller
      */
     public function destroy(Driver $driver)
     {
-        // Hapus foto dari storage sebelum menghapus data dari database
         if ($driver->photo_path) {
             Storage::disk('public')->delete($driver->photo_path);
         }
@@ -111,5 +109,20 @@ class DriverController extends Controller
         $driver->delete();
 
         return redirect()->route('drivers.index')->with('success', 'Data driver berhasil dihapus!');
+    }
+
+    /**
+     * [BARU] Men-generate PDF dari profil driver.
+     */
+    public function printPDF(Driver $driver)
+    {
+        // 1. Load view khusus untuk PDF dengan data driver
+        $pdf = Pdf::loadView('drivers.print', ['driver' => $driver]);
+
+        // 2. Set nama file yang akan di-download
+        $fileName = 'driver-profile-' . $driver->id . '-' . \Illuminate\Support\Str::slug($driver->name) . '.pdf';
+
+        // 3. Download file PDF
+        return $pdf->download($fileName);
     }
 }

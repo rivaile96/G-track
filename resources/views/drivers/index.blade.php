@@ -16,7 +16,6 @@
         </button>
     </div>
 
-    {{-- Ini adalah bagian yang menampilkan galeri kartu --}}
     <div class="driver-grid">
         @forelse ($drivers as $driver)
             <div class="driver-card">
@@ -52,14 +51,13 @@
                 </div>
             </div>
         @empty
-            {{-- Ini akan muncul jika tidak ada data driver sama sekali --}}
             <div class="card">
                 <p class="text-center py-4">Belum ada data driver. Silakan klik tombol "Tambah Driver Baru".</p>
             </div>
         @endforelse
     </div>
 
-    {{-- Struktur HTML untuk Modal Tambah Driver --}}
+    {{-- [PERBAIKAN] Struktur Modal Tambah Driver yang sudah lengkap --}}
     <div id="driver-modal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -74,14 +72,16 @@
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="mb-3"><label for="name" class="form-label">Nama Lengkap</label><input type="text" class="form-control" id="name" name="name" required></div>
-                            <div class="mb-3"><label for="phone_number" class="form-label">No. Telepon</label><input type="text" class="form-control" id="phone_number" name="phone_number" required></div>
-                            <div class="mb-3"><label for="ktp_number" class="form-label">No. KTP</label><input type="text" class="form-control" id="ktp_number" name="ktp_number" required></div>
+                            <div class="mb-3"><label for="name" class="form-label">Nama Lengkap</label><input type="text" class="form-control" name="name" required></div>
+                            <div class="mb-3"><label for="phone_number" class="form-label">No. Telepon</label><input type="text" class="form-control" name="phone_number" required></div>
+                            <div class="mb-3"><label for="ktp_number" class="form-label">No. KTP</label><input type="text" class="form-control" name="ktp_number" required></div>
+                            <div class="mb-3"><label for="address" class="form-label">Alamat</label><textarea class="form-control" name="address" rows="4"></textarea></div>
                         </div>
                         <div class="col-md-6">
-                            <div class="mb-3"><label for="sim_type" class="form-label">Tipe SIM</label><input type="text" class="form-control" id="sim_type" name="sim_type" required></div>
-                            <div class="mb-3"><label for="sim_number" class="form-label">No. SIM</label><input type="text" class="form-control" id="sim_number" name="sim_number" required></div>
-                            <div class="mb-3"><label for="sim_expiry_date" class="form-label">Tanggal Kadaluarsa SIM</label><input type="date" class="form-control" id="sim_expiry_date" name="sim_expiry_date" required></div>
+                            <div class="mb-3"><label for="sim_type" class="form-label">Tipe SIM</label><input type="text" class="form-control" name="sim_type" required></div>
+                            <div class="mb-3"><label for="sim_number" class="form-label">No. SIM</label><input type="text" class="form-control" name="sim_number" required></div>
+                            <div class="mb-3"><label for="sim_expiry_date" class="form-label">Tanggal Kadaluarsa SIM</label><input type="date" class="form-control" name="sim_expiry_date" required></div>
+                            <div class="mb-3"><label for="photo" class="form-label">Foto Driver</label><input type="file" class="form-control" name="photo"></div>
                         </div>
                     </div>
                     <div class="modal-footer">

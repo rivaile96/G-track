@@ -7,7 +7,8 @@
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title">Profil Lengkap Driver</h3>
             <div>
-                <a href="#" class="btn btn-secondary"><i class="fa fa-print"></i> Cetak Dokumen</a>
+                {{-- [PERBAIKAN] Arahkan link ke route 'drivers.print' --}}
+                <a href="{{ route('drivers.print', $driver->id) }}" class="btn btn-secondary" target="_blank"><i class="fa fa-print"></i> Cetak Dokumen</a>
                 <a href="{{ route('drivers.index') }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Kembali</a>
             </div>
         </div>
@@ -19,7 +20,7 @@
                 </div>
                 <div class="profile-info">
                     <h2>{{ $driver->name }}</h2>
-                    <span class="badge {{ $driver->status == 'available' ? 'bg-success' : 'bg-warning' }}">{{ $driver->status }}</span>
+                    <span class="badge {{ $driver->status == 'available' ? 'bg-success' : 'bg-warning' }}">{{ ucfirst($driver->status) }}</span>
                     
                     <div class="info-grid">
                         <div class="info-item">
@@ -40,6 +41,7 @@
                         </div>
                         <div class="info-item">
                             <label>SIM Kadaluarsa</label>
+                            {{-- Menggunakan Carbon untuk memformat tanggal --}}
                             <span>{{ \Carbon\Carbon::parse($driver->sim_expiry_date)->format('d F Y') }}</span>
                         </div>
                          <div class="info-item info-item-full">

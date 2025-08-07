@@ -32,3 +32,4 @@ Route::get('/drivers/{driver}', [DriverController::class, 'show'])->name('driver
 Route::get('/drivers/{driver}/edit', [DriverController::class, 'edit'])->name('drivers.edit');
 Route::patch('/drivers/{driver}', [DriverController::class, 'update'])->name('drivers.update');
 Route::delete('/drivers/{driver}', [DriverController::class, 'destroy'])->name('drivers.destroy');
+Route::get('/drivers/{driver}/print', [DriverController::class, 'printPDF'])->name('drivers.print');
