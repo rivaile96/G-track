@@ -18,5 +18,6 @@ class Asset extends Model
         'name',
         'unique_id',
         'type',
+        'status', // <-- PASTIKAN BARIS INI ADA
     ];
 }

@@ -1,15 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AssetController; // <-- Pastikan ini ada
+use App\Http\Controllers\AssetController;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Di sinilah kita mendaftarkan semua rute untuk aplikasi web kita.
-|
 */
 
 // Rute untuk halaman utama (Dashboard)
@@ -17,14 +14,23 @@ Route::get('/', function () {
     return view('dashboard');
 })->name('dashboard');
 
-// Rute untuk halaman Manajemen Aset
+
+// === RUTE UNTUK FITUR ASET (CRUD) ===
+
+// Menampilkan semua aset (Read)
 Route::get('/assets', [AssetController::class, 'index'])->name('assets.index');
 
-// Route untuk menampilkan form tambah aset baru
+// Menampilkan form tambah aset (Create - Form)
 Route::get('/assets/create', [AssetController::class, 'create'])->name('assets.create');
 
-// Route untuk menyimpan data baru dari form
+// Menyimpan data aset baru (Create - Process)
 Route::post('/assets', [AssetController::class, 'store'])->name('assets.store');
 
-// Route untuk menghapus sebuah aset
+// Menampilkan form edit aset (Update - Form)
+Route::get('/assets/{asset}/edit', [AssetController::class, 'edit'])->name('assets.edit');
+
+// Memproses update data aset (Update - Process) <-- INI YANG BARU DITAMBAHKAN
+Route::patch('/assets/{asset}', [AssetController::class, 'update'])->name('assets.update');
+
+// Menghapus data aset (Delete)
 Route::delete('/assets/{asset}', [AssetController::class, 'destroy'])->name('assets.destroy');

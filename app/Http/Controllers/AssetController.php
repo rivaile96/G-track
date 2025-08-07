@@ -2,66 +2,84 @@
 
 namespace App\Http\Controllers;
 
-// Kita panggil Model 'Asset' agar bisa berinteraksi dengan tabel 'assets'
 use App\Models\Asset;
-// Kita panggil class 'Request' untuk menangani data yang dikirim dari form
 use Illuminate\Http\Request;
 
 class AssetController extends Controller
 {
     /**
-     * Menampilkan halaman utama Manajemen Aset (daftar semua aset).
-     * Method ini akan dipanggil oleh route GET /assets
+     * Menampilkan daftar semua aset. (Read)
      */
     public function index()
     {
-        // Ambil semua data dari tabel 'assets' dan urutkan dari yang terbaru.
         $assets = Asset::latest()->get();
-
-        // Kirim data tersebut ke view 'assets.index'
         return view('assets.index', ['assets' => $assets]);
     }
 
     /**
-     * Menampilkan form untuk membuat aset baru.
-     * Method ini akan dipanggil oleh route GET /assets/create
+     * Menampilkan form untuk membuat aset baru. (Create - Form)
      */
     public function create()
     {
-        // Hanya menampilkan halaman yang berisi form.
         return view('assets.create');
     }
 
     /**
-     * Menyimpan data aset baru yang dikirim dari form ke database.
-     * Method ini akan dipanggil oleh route POST /assets
+     * Menyimpan data aset baru ke database. (Create - Process)
      */
     public function store(Request $request)
     {
-        // Validasi data yang masuk dari form.
+        // Validasi data yang masuk
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'unique_id' => 'required|string|unique:assets,unique_id',
             'type' => 'required|in:mobil,device',
         ]);
 
-        // Jika validasi berhasil, simpan data ke database.
+        // Simpan data ke database
         Asset::create($validatedData);
 
-        // Redirect pengguna kembali ke halaman daftar aset dengan pesan sukses.
+        // Redirect kembali dengan pesan sukses
         return redirect()->route('assets.index')->with('success', 'Aset baru berhasil ditambahkan!');
     }
 
     /**
-     * Menghapus data aset dari database.
-     * Method ini akan dipanggil oleh route DELETE /assets/{asset}
+     * Menampilkan form untuk mengedit data aset. (Update - Form)
+     */
+    public function edit(Asset $asset)
+    {
+        // Kirim data aset yang akan diedit ke view 'assets.edit'
+        return view('assets.edit', ['asset' => $asset]);
+    }
+
+    /**
+     * Mengupdate data aset di database. (Update - Process)
+     */
+    public function update(Request $request, Asset $asset)
+    {
+        // Validasi data yang masuk dari form edit
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            // Rule 'unique' diubah agar mengabaikan unique_id dari aset yang sedang diedit
+            'unique_id' => 'required|string|unique:assets,unique_id,' . $asset->id,
+            'type' => 'required|in:mobil,device',
+            'status' => 'required|in:aktif,standby,maintenance', // Tambahkan validasi untuk status
+        ]);
+
+        // Update data di database
+        $asset->update($validatedData);
+
+        // Redirect kembali dengan pesan sukses
+        return redirect()->route('assets.index')->with('success', 'Data aset berhasil di-update!');
+    }
+
+    /**
+     * Menghapus data aset dari database. (Delete)
      */
     public function destroy(Asset $asset)
     {
-        // Langsung hapus data aset yang dipilih (Laravel otomatis mencarikannya untuk kita)
         $asset->delete();
 
-        // Redirect kembali ke halaman daftar aset dengan pesan sukses.
         return redirect()->route('assets.index')->with('success', 'Aset berhasil dihapus!');
     }
 }

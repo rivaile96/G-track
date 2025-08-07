@@ -1,6 +1,4 @@
-import './bootstrap';
-
-// resources/js/app.js
+// import './bootstrap'; // <-- Dinonaktifkan sementara untuk tes konflik
 
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -15,16 +13,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Logika untuk Dropdown Menu
-    const submenuItems = document.querySelectorAll('.has-submenu > .nav-link');
+    const submenuTriggers = document.querySelectorAll('.has-submenu > .nav-link');
 
-    submenuItems.forEach(item => {
-        item.addEventListener('click', function(event) {
-            event.preventDefault(); // Mencegah link pindah halaman
-            const parent = this.parentElement;
-            const submenu = parent.querySelector('.submenu');
+    submenuTriggers.forEach(trigger => {
+        trigger.addEventListener('click', function(event) {
+            event.preventDefault();
 
-            parent.classList.toggle('open');
-            submenu.classList.toggle('open');
+            const parentNavItem = this.parentElement;
+            const submenu = parentNavItem.querySelector('.submenu');
+
+            parentNavItem.classList.toggle('open');
+
+            if (submenu) {
+                submenu.classList.toggle('open');
+            }
         });
     });
 
