@@ -45,11 +45,10 @@
                     </a>
                     <ul class="submenu">
                         <li><a href="{{ route('assets.index') }}">Daftar Aset</a></li>
-                        <li><a href="{{ route('assets.create') }}">Tambah Aset Baru</a></li>
+                        {{-- [PERBAIKAN] Link "Tambah Aset Baru" di sini dihapus --}}
                     </ul>
                 </div>
 
-                {{-- [BARU] Menu untuk Manajemen Driver --}}
                 <a href="{{ route('drivers.index') }}" class="nav-link {{ request()->is('drivers*') ? 'active' : '' }}">
                     <i class="fa fa-id-card fa-fw"></i>
                     <span>Manajemen Driver</span>

@@ -11,8 +11,6 @@ class Driver extends Model
 
     /**
      * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
      */
     protected $fillable = [
         'name',
@@ -27,7 +25,7 @@ class Driver extends Model
     ];
 
     /**
-     * Relasi: Satu driver hanya bisa membawa satu aset pada satu waktu.
+     * Relasi: Satu driver hanya bisa membawa (has one) satu aset pada satu waktu.
      */
     public function asset()
     {

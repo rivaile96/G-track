@@ -18,6 +18,17 @@ class Asset extends Model
         'name',
         'unique_id',
         'type',
-        'status', // <-- PASTIKAN BARIS INI ADA
+        'status',
+        'latitude',      // <-- [PENTING] Ditambahkan
+        'longitude',     // <-- [PENTING] Ditambahkan
+        'driver_id',     // <-- [PENTING] Ditambahkan
     ];
+
+    /**
+     * [BARU] Relasi: Satu Aset dimiliki oleh (belongs to) satu Driver.
+     */
+    public function driver()
+    {
+        return $this->belongsTo(Driver::class);
+    }
 }
